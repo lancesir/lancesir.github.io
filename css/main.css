@@ -3374,3 +3374,23 @@ input, select, textarea {
 @media (max-width: 480px){
 	.bmc-discreet::after{ display:none; }
 }
+
+/* Responsive image helpers: ensure consistent aspect ratio, avoid layout shift */
+.responsive-img{
+	width:100%;
+	height:auto;
+	display:block;
+	max-width:100%;
+	object-fit:cover;
+	aspect-ratio: 16/9;
+}
+
+.responsive-img.small{
+	aspect-ratio: 4/3;
+}
+
+/* Utility: portrait thumbnails */
+.responsive-img.portrait{
+	aspect-ratio: 3/4;
+}
+
