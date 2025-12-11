@@ -14,8 +14,8 @@ This repository contains a ready-to-deploy site. This project is released under 
 - Clone the repo:
 
 ```bash
-git clone https://github.com/lancesir/lancesir.github.io.git
-cd lancesir.github.io
+git clone https://github.com/lancesir/rental-listings-template.git
+cd rental-listings-template
 ```
 
 - Preview locally (Python simple server):
