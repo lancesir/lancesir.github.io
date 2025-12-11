@@ -1,0 +1,47 @@
+name: Lint HTML & CSS
+
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - 'css/**'
+      - 'sass/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (npm ci)
+        run: |
+          npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Run HTMLHint
+        run: |
+          echo "Running HTMLHint..."
+          npx htmlhint "**/*.html"
+
+      - name: Run CSSLint (if CSS files exist)
+        run: |
+          if ls css/*.css 1> /dev/null 2>&1; then
+            echo "Running CSSLint..."
+            npx csslint css/*.css || true
+          else
+            echo "No CSS files found, skipping CSSLint."
+          fi
+
+      - name: Run Stylelint on SCSS (if SCSS files exist)
+        run: |
+          if ls sass/**/*.scss 1> /dev/null 2>&1 || ls sass/*.scss 1> /dev/null 2>&1; then
+            echo "Running Stylelint on SCSS..."
+            npx stylelint "sass/**/*.scss" --syntax scss || npx stylelint "sass/*.scss" --syntax scss || true
+          else
+            echo "No SCSS files found, skipping Stylelint."
+          fi
