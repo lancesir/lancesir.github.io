@@ -21,7 +21,7 @@ jobs:
 
       - name: Install linters
         run: |
-          npm install -g htmlhint csslint
+          npm install -g htmlhint csslint stylelint stylelint-scss stylelint-config-standard
 
       - name: Run HTMLHint
         run: |
@@ -35,4 +35,13 @@ jobs:
             csslint css/*.css
           else
             echo "No CSS files found, skipping CSSLint."
+          fi
+
+      - name: Run Stylelint on SCSS (if SCSS files exist)
+        run: |
+          if ls sass/**/*.scss 1> /dev/null 2>&1 || ls sass/*.scss 1> /dev/null 2>&1; then
+            echo "Running Stylelint on SCSS..."
+            stylelint "sass/**/*.scss" --syntax scss || stylelint "sass/*.scss" --syntax scss
+          else
+            echo "No SCSS files found, skipping Stylelint."
           fi
