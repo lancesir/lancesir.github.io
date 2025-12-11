@@ -3334,3 +3334,43 @@ input, select, textarea {
 			}
 
 	}
+
+/* Buy Me a Coffee footer tooltip and discreet link styles */
+.bmc-discreet{
+	position: relative;
+	color: #6b6b6b;
+	font-weight: 600;
+	text-decoration: none;
+}
+.bmc-discreet:hover,
+.bmc-discreet:focus{
+	color: #333;
+}
+.bmc-discreet::after{
+	content: "Buy me a coffee";
+	position: absolute;
+	right: 0;
+	bottom: 125%;
+	background: #222;
+	color: #fff;
+	padding: 6px 8px;
+	border-radius: 4px;
+	white-space: nowrap;
+	opacity: 0;
+	transform: translateY(6px);
+	transition: opacity .18s, transform .18s;
+	pointer-events: none;
+	font-size: 13px;
+}
+.bmc-discreet:hover::after,
+.bmc-discreet:focus::after{
+	opacity: 1;
+	transform: translateY(0);
+}
+.bmc-discreet:focus{
+	outline: 2px solid rgba(0,0,0,0.12);
+	outline-offset: 3px;
+}
+@media (max-width: 480px){
+	.bmc-discreet::after{ display:none; }
+}
