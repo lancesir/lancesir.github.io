@@ -1,0 +1,11 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-scss"],
+  "rules": {
+    "indentation": 2,
+    "string-quotes": "double",
+    "number-leading-zero": "always",
+    "block-no-empty": true,
+    "no-descending-specificity": null
+  }
+}

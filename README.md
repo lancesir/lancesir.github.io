@@ -42,7 +42,9 @@ This template is offered to the community to fork, reuse, and adapt. Use it for 
 I added an `LICENSE` (MIT) and a `DISCLAIMER.md` file to this repository. The MIT license includes a standard warranty and liability disclaimer; the `DISCLAIMER.md` restates that the maintainer(s) are not responsible for how third parties use or adapt this template. This is not legal advice — consult a lawyer if you need stronger legal protection.
 
 **Contributing**
-Contributions are welcome! If you improve the template (bug fixes, accessibility improvements, extra features), please open a PR.
+Contributions are welcome! If you improve the template (bug fixes, accessibility improvements, extra features), please open a PR. See `CONTRIBUTING.md` for guidelines, and `CODE_OF_CONDUCT.md` for community expectations.
+
+If you find a security issue, follow the instructions in `SECURITY.md` to report it privately.
 
 ---
 

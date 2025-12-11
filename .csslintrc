@@ -1,0 +1,8 @@
+{
+  "ignore": {
+    "ids": true
+  },
+  "errors": {
+    "box-model": false
+  }
+}
