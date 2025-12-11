@@ -70,3 +70,85 @@ perl -pi -e 's/(<meta name="buymeacoffee" content=")[^"]*(" ?\/>|">)/$1your-slug
 ```
 
 - Notes: This section is intentionally non-promotional and is aimed at developers who fork or maintain the template. The public-facing `README` no longer advertises support links.
+
+**Contact Page Setup**
+
+- **Where to look:** The contact form is in `contact.html` and currently posts to Formspree (`action="https://formspree.io/f/mpzbybow"`). That means no server code is required — Formspree will forward messages to the email address you configure in your Formspree dashboard.
+- **Quick Formspree setup (recommended, no server):**
+	1. Create a free Formspree account and add a new form. Formspree will give you an endpoint like `https://formspree.io/f/xxxxxxx`.
+	2. Replace the `action` value in `contact.html` with your endpoint (keep `method="post"`).
+	3. Optionally add a hidden input to set a subject or metadata:
+
+```html
+<input type="hidden" name="_subject" value="Website contact form" />
+```
+
+	4. Test by submitting the form in your browser; Formspree will email the submission to you.
+
+- **If you prefer a server-side handler:**
+	- Uncomment or implement a server script. There’s an example contact form in the file comments (PHP). A simple PHP handler might look like:
+
+```php
+<?php
+	// contact.php (very small example - adapt and secure for production)
+	$name = $_POST['name'] ?? '';
+	$email = $_POST['email'] ?? '';
+	$message = $_POST['query'] ?? '';
+
+	$to = 'you@yourdomain.com';
+	$subject = 'Website contact from ' . $name;
+	$body = "From: $name\nEmail: $email\n\n$message";
+	mail($to, $subject, $body);
+	header('Location: /contact.html?sent=1');
+	exit;
+?>
+```
+
+	- Update `form action="contact.php" method="post"` in `contact.html` and deploy to a host that supports PHP (or adapt the handler to your backend platform: Node/Express, Python/Flask, etc.).
+
+- **Spam & validation:**
+	- Add client-side validation (HTML `required`, pattern attributes) already present for basic fields.
+	- Add server-side validation and a spam protection layer (reCAPTCHA v2/v3 or honeypot fields) if you expect high traffic.
+
+- **Local testing tips:**
+	- If you use a server-side handler, run a local dev server (e.g., PHP built-in server `php -S localhost:8000`) and test with the form.
+	- For Formspree you can test directly in the static preview after replacing the `action` endpoint.
+
+**Application / "Apply Now" Setup**
+
+- **Where to look:** The application form lives in `application.html`. It currently contains a simple HTML form without an `action`, so it does not submit anywhere by default.
+- **Options for handling applications:**
+	1. **External form service (quick, no server):** Use Formspree (same as contact), Google Forms, Typeform, or similar services. Replace the `form` markup `action` with the service endpoint.
+	2. **Receive applications via email (Formspree):** If you want applications emailed to you, set the `action` to your Formspree endpoint and include helpful hidden fields (e.g., `_subject` or `_replyto`).
+	3. **Server-side processing (recommended for attachments / structured data):** Implement a backend that accepts POST requests, validates input, saves records to a database, and stores uploaded files. For example, with Node/Express + `multer` you can accept file uploads and store them on disk or S3.
+
+- **Suggested application fields:**
+	- Full name, email, phone
+	- Property reference (which listing they apply for)
+	- Desired move-in date
+	- Short message or cover letter
+	- File upload (ID, proof of income) — requires server support
+
+- **UX tips:**
+	- Confirm submission with a thank-you page or a success message on the same page (query param or inline response).
+	- Add `aria` attributes and clear labels for accessibility.
+	- If you expect to screen many applicants, add an automated PDF export or a small admin interface.
+
+- **Quick Formspree example for `application.html`:**
+
+```html
+<form action="https://formspree.io/f/yourid" method="post">
+	<input type="text" name="name" placeholder="Full name" required />
+	<input type="email" name="email" placeholder="Email" required />
+	<textarea name="message" placeholder="Brief message"></textarea>
+	<input type="submit" value="Apply" />
+</form>
+```
+
+	Note: Formspree doesn't support file uploads on free tiers; use a server or an alternate service if you need attachments.
+
+- **Where to put changes**
+- To switch to Formspree, edit `contact.html` and/or `application.html` and set the `action` attribute(s) to the endpoint(s) from your service of choice.
+- To implement server-side handling, place server scripts (PHP, Node, etc.) on the server and point the `action` to the script path (e.g., `/contact.php` or `/api/apply`).
+
+If you'd like, I can add a short example Node/Express handler and a sample `package.json` for local testing and deployment.
